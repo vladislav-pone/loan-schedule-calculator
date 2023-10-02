@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\EuriborController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('loans', PhotoController::class)->only(['show', 'store', 'update']);
+Route::resource('loans', LoanController::class)->only(['show', 'store']);
+Route::post('loans/{loan}', EuriborController::class);

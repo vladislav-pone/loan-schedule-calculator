@@ -5,22 +5,36 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateLoanRequest;
-use App\Http\Requests\UpdateLoanRequest;
+use App\Models\Loan;
+use App\Services\Loan\CreateLoanService;
 
 class LoanController extends Controller
 {
-    public function show(string $id): JsonResponse
+    public function show(Loan $loan): JsonResponse
     {
-        return response()->json([]); // TODO implement logic
+        return $this->renderCalculations($loan);
     }
 
     public function store(CreateLoanRequest $request): JsonResponse
     {
-        return response()->json([]); // TODO implement logic
-    }
+        /** @var numeric-string $amountInCents */
+        $amountInCents = $request->input('amount_in_cents');
 
-    public function update(UpdateLoanRequest $request, string $id): JsonResponse
-    {
-        return response()->json([]); // TODO implement logic
+        /** @var int $term */
+        $term = $request->input('term');
+
+        /** @var int $interestRateInBasisPoints */
+        $interestRateInBasisPoints = $request->input('interest_rate_in_basis_points');
+
+        /** @var int $euriborRateInBasisPoints */
+        $euriborRateInBasisPoints = $request->input('euribor_rate_in_basis_points');
+
+        $loan = CreateLoanService::createLoan(
+            amount: $amountInCents,
+            term: $term,
+            interestRate: $interestRateInBasisPoints,
+            euriborRate: $euriborRateInBasisPoints,
+        );
+        return $this->renderCalculations($loan, true);
     }
 }

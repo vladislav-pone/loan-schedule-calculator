@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class CreateLoanRequest extends FormRequest
+class CreateEuriborRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,10 +17,8 @@ class CreateLoanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount_in_cents' => 'required|numeric|gt:0', // The principal loan amount in cents.
-            'term' => 'required|numeric|gt:0', // The loan term in months.
-            'interest_rate_in_basis_points' => 'required|numeric|gte:0', // The initial interest rate in basis points (1 basis point = 0.01%).
-            'euribor_rate_in_basis_points' => 'required|numeric|gte:0', // The initial Euribor rate as a percentage. Can change later.
+            'segment_nr' => 'required|numeric|gt:0', // month calculations start from
+            'euribor_in_basis_point' => 'required|numeric|gte:0', // in basis point
         ];
     }
 
